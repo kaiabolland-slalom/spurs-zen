@@ -231,12 +231,12 @@ onUnmounted(() => {
             class="duration-btn"
             :class="{ selected: selectedAudio === 'waves' }"
             @click="selectedAudio = 'waves'"
-          >🌊 Ocean waves</button>
+          >Ocean waves</button>
           <button
             class="duration-btn"
             :class="{ selected: selectedAudio === 'crowd' }"
             @click="selectedAudio = 'crowd'"
-          >🏟 Stadium crowd</button>
+          >Stadium crowd</button>
         </div>
       </section>
 
@@ -285,14 +285,20 @@ onUnmounted(() => {
       </div>
 
       <div class="volume-row">
-        <span class="volume-icon">🔈</span>
+        <svg class="vol-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        </svg>
         <input
           type="range" min="0" max="1" step="0.01"
           :value="volume"
           class="volume-slider"
           @input="e => { volume = +e.target.value; audioManager.setVolume(volume) }"
         />
-        <span class="volume-icon">🔊</span>
+        <svg class="vol-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+        </svg>
       </div>
 
       <button class="exit-btn" @click="reset">Exit</button>
@@ -479,14 +485,18 @@ onUnmounted(() => {
 .volume-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
   width: min(280px, 82vw);
+  margin-top: 12px;
 }
 
-.volume-icon {
-  font-size: 16px;
+.vol-icon {
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.5);
 }
+
 
 .volume-slider {
   flex: 1;
