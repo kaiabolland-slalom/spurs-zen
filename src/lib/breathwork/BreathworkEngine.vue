@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onUnmounted } from 'vue'
 import { breathState } from '../session/breathState.js'
+import { audioManager } from '../audio/AudioManager.js'
 
 const PATTERNS = {
   box: {
@@ -44,6 +45,8 @@ const CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS
 const screen = ref('setup')
 const selectedPattern = ref('box')
 const selectedDuration = ref(1)
+const selectedAudio = ref('waves')
+const volume = ref(0.8)
 
 const phaseIndex    = ref(0)
 const phaseElapsed  = ref(0)
@@ -150,6 +153,7 @@ async function start() {
 
   try { wakeLock = await navigator.wakeLock?.request('screen') } catch {}
 
+  audioManager.play(`/audio/${selectedAudio.value}.wav`)
   rafId = requestAnimationFrame(tick)
 }
 
@@ -159,6 +163,7 @@ function end() {
   wakeLock?.release()
   wakeLock = null
   breathState.active = false
+  audioManager.stop()
   screen.value = 'complete'
 }
 
@@ -168,6 +173,7 @@ function reset() {
   wakeLock?.release()
   wakeLock = null
   breathState.active = false
+  audioManager.stop()
   screen.value = 'setup'
 }
 
@@ -218,6 +224,22 @@ onUnmounted(() => {
         </div>
       </section>
 
+      <section class="section">
+        <h2 class="section-label">Choose your sound</h2>
+        <div class="duration-row">
+          <button
+            class="duration-btn"
+            :class="{ selected: selectedAudio === 'waves' }"
+            @click="selectedAudio = 'waves'"
+          >🌊 Ocean waves</button>
+          <button
+            class="duration-btn"
+            :class="{ selected: selectedAudio === 'crowd' }"
+            @click="selectedAudio = 'crowd'"
+          >🏟 Stadium crowd</button>
+        </div>
+      </section>
+
       <button class="primary-btn" @click="start">Start</button>
     </div>
 
@@ -260,6 +282,17 @@ onUnmounted(() => {
           />
         </svg>
         <p class="phase-label">{{ phaseName }}</p>
+      </div>
+
+      <div class="volume-row">
+        <span class="volume-icon">🔈</span>
+        <input
+          type="range" min="0" max="1" step="0.01"
+          :value="volume"
+          class="volume-slider"
+          @input="e => { volume = +e.target.value; audioManager.setVolume(volume) }"
+        />
+        <span class="volume-icon">🔊</span>
       </div>
 
       <button class="exit-btn" @click="reset">Exit</button>
@@ -310,7 +343,7 @@ onUnmounted(() => {
 
 .brand h1 {
   font-size: 36px;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -0.5px;
   color: #fff;
   margin: 0 0 8px;
@@ -443,11 +476,54 @@ onUnmounted(() => {
   margin: 0;
 }
 
+.volume-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: min(280px, 82vw);
+}
+
+.volume-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.volume-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.25);
+  outline: none;
+  cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+}
+
 .exit-btn {
   position: fixed;
   bottom: max(32px, env(safe-area-inset-bottom, 32px));
-  left: 24px;
-  right: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 48px);
+  max-width: 372px;
   padding: 17px;
   border-radius: 14px;
   border: 1.5px solid rgba(255, 255, 255, 0.35);
