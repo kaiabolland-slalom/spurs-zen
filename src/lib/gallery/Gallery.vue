@@ -3,16 +3,16 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { breathState } from '../session/breathState.js'
 
 const PLAYERS = [
-  { src: new URL('../../assets/images/players/harry-kane.jpg',           import.meta.url).href },
-  { src: new URL('../../assets/images/players/son-heung-min.jpg',        import.meta.url).href },
-  { src: new URL('../../assets/images/players/gareth-bale.jpg',          import.meta.url).href },
-  { src: new URL('../../assets/images/players/lucas-moura.jpg',          import.meta.url).href },
-  { src: new URL('../../assets/images/players/ledley-king.jpg',          import.meta.url).href },
-  { src: new URL('../../assets/images/players/christian-eriksen.jpg',    import.meta.url).href },
-  { src: new URL('../../assets/images/players/hugo-lloris.jpg',          import.meta.url).href },
-  { src: new URL('../../assets/images/players/luka-modric.jpg',          import.meta.url).href },
-  { src: new URL('../../assets/images/players/jermain-defoe.jpg',        import.meta.url).href },
-  { src: new URL('../../assets/images/players/rafael-van-der-vaart.jpg', import.meta.url).href },
+  { src: new URL('../../assets/images/players/Harry_Kane_(24685589756).jpg',                                                          import.meta.url).href },
+  { src: new URL('../../assets/images/players/Titan_Sports_Conferred_the_trophy_to_Son_Heung-min_on_April_24th,_2018.jpg',            import.meta.url).href },
+  { src: new URL('../../assets/images/players/gareth-bale.jpg',                                                                       import.meta.url).href },
+  { src: new URL('../../assets/images/players/lucas-moura.jpg',                                                                       import.meta.url).href },
+  { src: new URL('../../assets/images/players/christian-eriksen.jpg',                                                                 import.meta.url).href },
+  { src: new URL('../../assets/images/players/Manchester_United_v_Tottenham_Hotspur,_December_2016_(08).jpeg',                        import.meta.url).href },
+  { src: new URL('../../assets/images/players/luka-modric.jpg',                                                                       import.meta.url).href },
+  { src: new URL('../../assets/images/players/jermain-defoe.jpg',                                                                     import.meta.url).href },
+  { src: new URL('../../assets/images/players/rafael-van-der-vaart.jpg',                                                              import.meta.url).href },
+  { src: new URL('../../assets/images/players/Tottenham_Hotspur_Stadium_South_Stand.jpg',                                             import.meta.url).href },
 ]
 
 function shuffle(arr) {
@@ -134,7 +134,7 @@ onUnmounted(() => { if (rafId) cancelAnimationFrame(rafId) })
   background-position: center top;
   filter: sepia(0.15) saturate(0.8) brightness(0.58);
   will-change: transform;
-  transform-origin: center center;
+  transform-origin: center 20%;
 }
 
 .gallery-overlay {
