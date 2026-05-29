@@ -1,0 +1,10 @@
+{
+  "name": "Spurs Zen",
+  "short_name": "Spurs Zen",
+  "description": "Meditation and breathwork for Tottenham Hotspur supporters.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#132257",
+  "theme_color": "#132257",
+  "icons": []
+}
