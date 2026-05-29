@@ -3,8 +3,9 @@ import { ref, computed, onUnmounted } from 'vue'
 import { breathState } from '../session/breathState.js'
 import { audioManager } from '../audio/AudioManager.js'
 
-const PATTERNS = {
-  box: {
+const PATTERNS = [
+  {
+    key: 'box',
     label: 'Box',
     description: 'Inhale for 4, hold for 4, exhale for 4, hold for 4',
     phases: [
@@ -14,7 +15,8 @@ const PATTERNS = {
       { name: 'hold',        duration: 4, scaleFrom: 0.65, scaleTo: 0.65 },
     ],
   },
-  '478': {
+  {
+    key: '478',
     label: '4–7–8',
     description: 'Inhale for 4, hold for 7, exhale for 8',
     phases: [
@@ -23,7 +25,8 @@ const PATTERNS = {
       { name: 'breathe out', duration: 8, scaleFrom: 1.0,  scaleTo: 0.65 },
     ],
   },
-  resonance: {
+  {
+    key: 'resonance',
     label: 'Resonance',
     description: 'Inhale for 5, exhale for 5',
     phases: [
@@ -31,7 +34,7 @@ const PATTERNS = {
       { name: 'breathe out', duration: 5, scaleFrom: 1.0,  scaleTo: 0.65 },
     ],
   },
-}
+]
 
 const SESSION_DURATIONS = [
   { label: '1 min', value: 1 },
@@ -62,7 +65,7 @@ let rafId    = null
 let lastTs   = null
 let wakeLock = null
 
-const pattern      = computed(() => PATTERNS[selectedPattern.value])
+const pattern      = computed(() => PATTERNS.find(p => p.key === selectedPattern.value))
 const totalSeconds = computed(() => selectedDuration.value * 60)
 
 // Dot at the start of each phase, positioned on the ring
@@ -197,11 +200,11 @@ onUnmounted(() => {
         <h2 class="section-label">Choose a pattern</h2>
         <div class="pattern-list">
           <button
-            v-for="(p, key) in PATTERNS"
-            :key="key"
+            v-for="p in PATTERNS"
+            :key="p.key"
             class="pattern-card"
-            :class="{ selected: selectedPattern === key }"
-            @click="selectedPattern = key"
+            :class="{ selected: selectedPattern === p.key }"
+            @click="selectedPattern = p.key"
           >
             <span class="pattern-name">{{ p.label }}</span>
             <span class="pattern-desc">{{ p.description }}</span>
