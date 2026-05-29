@@ -134,7 +134,7 @@ onUnmounted(() => { if (rafId) cancelAnimationFrame(rafId) })
   background-position: center top;
   filter: sepia(0.15) saturate(0.8) brightness(0.58);
   will-change: transform;
-  transform-origin: center 20%;
+  transform-origin: center top;
 }
 
 .gallery-overlay {
